@@ -5,7 +5,8 @@ import {useState} from "react";
 import "../assets/styles/reset.css";
 import "../assets/styles/style.css";
 import LoginPage from "./LoginPage";
-import SignUp from "./SignUp";
+import SignUpPage from "./SignUpPage";
+import HomePage from "./HomePage";
 
 export default function App() {
 
@@ -16,7 +17,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/home" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
