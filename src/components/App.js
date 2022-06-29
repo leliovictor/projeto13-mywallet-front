@@ -16,7 +16,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/cadastro" element={<SignUp />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
