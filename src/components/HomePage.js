@@ -1,17 +1,20 @@
 import styled from "styled-components";
 import CashInOutButton from "./CashInOutButton";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 import WalletDisplay from "./WalletDisplay";
+import UserContext from "../contexts/UserContext";
 
 export default function HomePage() {
   const navigate = useNavigate();
-  
+  const { data } = useContext(UserContext);
+
   return (
     <>
       <User>
-        <h1>Olá, Fulano</h1>
-        <ion-icon name="exit-outline" onClick={()=> navigate("/")}></ion-icon>
+        <h1>Olá, {data.name}</h1>
+        <ion-icon name="exit-outline" onClick={() => navigate("/")}></ion-icon>
       </User>
       <WalletDisplay />
       <CashButtons>
@@ -30,16 +33,20 @@ const User = styled.div`
 
   font-size: 32px;
 
-  h1{
-  font-weight: 700;
-  font-size: 26px;
-  line-height: 31px;
-}
+  h1 {
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 31px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   color: #ffffff;
 `;
 
 const CashButtons = styled.div`
-display: flex;
-justify-content: space-between;
-width: 100%
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;

@@ -1,14 +1,52 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import UserContext from "../contexts/UserContext";
 
 export default function LoginPage() {
+  const [loading, setLoading] = useState(false);
+
+  const { data, setData } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function login() {
-    return;
+  async function login(e) {
+    setLoading(true);
+    e.preventDefault();
+
+    const body = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5001/", body);
+
+      console.log(response);
+      registerLogin(response.data);
+    } catch (err) {
+      alert(err.response.data);
+      setLoading(false);
+    }
+
+    function registerLogin(obj) {
+      setData({
+        name: obj.name,
+        email: obj.email,
+        _id: obj._id,
+        config: {
+          headers: {
+            Authorization: `Bearer ${obj.token}`,
+          },
+        },
+      });
+
+      navigate("/home");
+    }
   }
 
   return (
@@ -21,6 +59,7 @@ export default function LoginPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          disabled={loading ? "disabled" : ""}
         />
         <Input
           type="password"
@@ -29,6 +68,7 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
           autoComplete="on"
+          disabled={loading ? "disabled" : ""}
         />
         <button type="submit">Entrar</button>
       </form>

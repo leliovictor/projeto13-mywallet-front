@@ -26,13 +26,13 @@ export default function SignUpPage() {
 
       try {
         const response = await axios.post("http://localhost:5001/signup", body);
-        
-        if(response.status === 201) {
+
+        if (response.status === 201) {
           alert("User account has been created successfully");
           navigate("/");
         }
       } catch (err) {
-        console.log(err);
+        alert(err.response.data);
         setLoading(false);
       }
     }
