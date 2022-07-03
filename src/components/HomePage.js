@@ -1,19 +1,22 @@
 import styled from "styled-components";
-import {CashIn, CashOut} from "./CashInOutButton";
+import CashInOutButton from "./CashInOutButton";
+import {useNavigate} from "react-router-dom";
 
 import WalletDisplay from "./WalletDisplay";
 
 export default function HomePage() {
+  const navigate = useNavigate();
+  
   return (
     <>
       <User>
         <h1>Olá, Fulano</h1>
-        <ion-icon name="exit-outline"></ion-icon>
+        <ion-icon name="exit-outline" onClick={()=> navigate("/")}></ion-icon>
       </User>
       <WalletDisplay />
       <CashButtons>
-        <CashIn />
-        <CashOut />
+        <CashInOutButton button={"cash-in"} />
+        <CashInOutButton button={"cash-out"} />
       </CashButtons>
     </>
   );
@@ -33,11 +36,6 @@ const User = styled.div`
   line-height: 31px;
 }
   color: #ffffff;
-`;
-
-const Wallet = styled.div`
-background: #FFFFFF;
-border-radius: 5px;
 `;
 
 const CashButtons = styled.div`

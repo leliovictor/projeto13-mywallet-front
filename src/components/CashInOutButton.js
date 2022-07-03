@@ -1,21 +1,28 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-export function CashIn() {
-  return (
-    <Content>
-      <ion-icon name="add-circle-outline"></ion-icon>
-      <p>Nova entrada</p>
-    </Content>
-  );
-}
+export default function CashInOutButton({ button }) {
+  const navigate = useNavigate();
 
-export function CashOut() {
-  return (
-    <Content>
-      <ion-icon name="remove-circle-outline"></ion-icon>
-      <p>Nova saída</p>
-    </Content>
-  );
+  if (button === "cash-in") {
+    return (
+      <Content onClick={() => navigate("/home/cash-in")}>
+        <ion-icon name="add-circle-outline"></ion-icon>
+        <p>Nova entrada</p>
+      </Content>
+    );
+  }
+
+  if (button === "cash-out") {
+    return (
+      <Content onClick={() => navigate("/home/cash-out")}>
+        <ion-icon name="remove-circle-outline"></ion-icon>
+        <p>Nova saída</p>
+      </Content>
+    );
+  }
+
+  return <></>;
 }
 
 const Content = styled.div`

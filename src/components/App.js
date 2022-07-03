@@ -7,7 +7,7 @@ import "../assets/styles/style.css";
 import LoginPage from "./LoginPage";
 import SignUpPage from "./SignUpPage";
 import HomePage from "./HomePage";
-import CashOperation from "./CashOperation";
+import CashOperationPage from "./CashOperationPage";
 
 export default function App() {
 
@@ -20,7 +20,7 @@ export default function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/home/:operation" element={<CashOperation />} />
+          <Route path="/home/:operation" element={<CashOperationPage />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function CashOperation() {
+export default function CashOperationPage() {
   const { operation } = useParams();
 
   const [invalidPage, setInvalidPage] = useState(false);
@@ -42,7 +42,7 @@ export default function CashOperation() {
       default:
         setInvalidPage(true);
     }
-  }, []);
+  }, [operation]);
 
   if(invalidPage) {
     return (
