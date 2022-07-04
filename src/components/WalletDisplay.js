@@ -19,7 +19,7 @@ export default function WalletDisplay() {
         "http://localhost:5001/home",
         data.config
       );
-      setWalletStatement(response.data);
+      setWalletStatement(response.data.reverse());
     } catch (err) {
       alert(err.response.data);
     }
@@ -28,7 +28,6 @@ export default function WalletDisplay() {
   function totalValue(arrObj) {
     let sum = 0;
     arrObj.map((obj) => {
-      console.log(obj);
       if (obj.type === "debit") {
         sum += parseFloat(obj.value);
       } else {
@@ -36,7 +35,7 @@ export default function WalletDisplay() {
       }
     });
     const color = sum > 0 ? "#03AC00" : sum === 0 ? "#868686" : "#C70000";
-    sum = String(sum).replace(".", ",").replace("-", "");
+    sum = sum.toFixed(2).replace(".", ",").replace("-", "");
     return <TotalValue color={color}>{sum}</TotalValue>;
   }
 
@@ -46,7 +45,7 @@ export default function WalletDisplay() {
 
     return (
       <>
-        <div>
+        <Statements>
           {walletStatement.map((obj, index) => (
             <WalletItem
               key={index}
@@ -56,7 +55,7 @@ export default function WalletDisplay() {
               type={obj.type}
             />
           ))}
-        </div>
+        </Statements>
         <Total>
           <h1>SALDO</h1>
           {totalValue(walletStatement)}
@@ -115,4 +114,11 @@ const Total = styled.div`
 
 const TotalValue = styled.h2`
   color: ${(props) => props.color};
+`;
+
+const Statements = styled.div`
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;

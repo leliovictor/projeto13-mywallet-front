@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 export default function CashInOutButton({ button }) {
+  
   const navigate = useNavigate();
 
   if (button === "cash-in") {

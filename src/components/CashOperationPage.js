@@ -1,16 +1,20 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+
+import UserContext from "../contexts/UserContext";
 
 export default function CashOperationPage() {
   const { operation } = useParams();
+  const { data } = useContext(UserContext);
 
   const [invalidPage, setInvalidPage] = useState(false);
   const [pageInfos, setPageInfos] = useState({});
 
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,7 +48,7 @@ export default function CashOperationPage() {
     }
   }, [operation]);
 
-  if(invalidPage) {
+  if (invalidPage) {
     return (
       <Content>
         <h1>Invalid operation</h1>
@@ -52,8 +56,39 @@ export default function CashOperationPage() {
     );
   }
 
-  function redirector() {
-    navigate("/home");
+  function redirector(e) {
+    e.preventDefault();
+
+    switch (operation) {
+      case "cash-in":
+      case "cash-out":
+        postNewOperation();
+        break;
+      case "edit_cash-in":
+        break;
+      case "edit_cash-out":
+        break;
+    }
+  }
+
+  async function postNewOperation() {
+    const value =
+      operation === "cash-in"
+        ? parseFloat(Math.abs(amount))
+        : parseFloat(Math.abs(amount)) * -1;
+
+    const body = {
+      value: value,
+      description: description,
+    };
+
+    try {
+      await axios.post("http://localhost:5001/home", body, data.config);
+
+      navigate("/home");
+    } catch (err) {
+      alert(err.response.data);
+    }
   }
 
   return (
