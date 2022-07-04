@@ -1,11 +1,21 @@
 import axios from "axios";
 import styled from "styled-components";
 import { useContext } from "react";
+import {useNavigate} from "react-router-dom";
 
 import UserContext from "../contexts/UserContext";
 
-export default function WalletItem({ date, description, value, type, index, reload, setReload }) {
+export default function WalletItem({
+  date,
+  description,
+  value,
+  type,
+  index,
+  reload,
+  setReload,
+}) {
   const { data } = useContext(UserContext);
+  const navigate = useNavigate();
 
   async function deleteValue() {
     const text = "Are you sure?";
@@ -20,7 +30,25 @@ export default function WalletItem({ date, description, value, type, index, relo
   }
 
   function editValue() {
-    alert("Tentando editar");
+    if (type === "debit") {
+      navigate("/home/edit_cash-in", {
+        state: {
+          description,
+          value,
+          index
+        },
+      });
+    }
+
+    if (type === "credit") {
+      navigate("/home/edit_cash-out", {
+        state: {
+          description,
+          value,
+          index
+        },
+      });
+    }
   }
 
   return (

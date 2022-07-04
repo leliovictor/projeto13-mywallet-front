@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 
 import UserContext from "../contexts/UserContext";
@@ -16,6 +16,7 @@ export default function CashOperationPage() {
   const [description, setDescription] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     switch (operation) {
@@ -36,12 +37,16 @@ export default function CashOperationPage() {
           pageTittle: "Editar entrada",
           buttonTittle: "Atualizar entrada",
         });
+        setAmount(location.state.value);
+        setDescription(location.state.description);
         break;
       case "edit_cash-out":
         setPageInfos({
           pageTittle: "Editar saída",
           buttonTittle: "Atualizar saída",
         });
+        setAmount(location.state.value);
+        setDescription(location.state.description);
         break;
       default:
         setInvalidPage(true);
@@ -65,8 +70,10 @@ export default function CashOperationPage() {
         postNewOperation();
         break;
       case "edit_cash-in":
+        editOperation();
         break;
       case "edit_cash-out":
+        editOperation();
         break;
     }
   }
@@ -84,6 +91,27 @@ export default function CashOperationPage() {
 
     try {
       await axios.post("http://localhost:5001/home", body, data.config);
+
+      navigate("/home");
+    } catch (err) {
+      alert(err.response.data);
+    }
+  }
+
+  async function editOperation() {
+    const value =
+      operation === "edit_cash-in"
+        ? parseFloat(Math.abs(amount))
+        : parseFloat(Math.abs(amount)) * -1;
+
+    const body = {
+      value: value,
+      description: description,
+      index: location.state.index
+    };
+
+    try {
+      await axios.put("http://localhost:5001/home", body, data.config);
 
       navigate("/home");
     } catch (err) {
