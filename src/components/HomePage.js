@@ -3,12 +3,13 @@ import CashInOutButton from "./CashInOutButton";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
-import WalletDisplay from "./WalletDisplay";
 import UserContext from "../contexts/UserContext";
+import WalletDisplay from "./WalletDisplay";
 
 export default function HomePage() {
-  const navigate = useNavigate();
   const { data } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   return (
     <>

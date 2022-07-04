@@ -8,7 +8,7 @@ import UserContext from "../contexts/UserContext";
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
-  const { data, setData } = useContext(UserContext);
+  const { setData } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -26,7 +26,6 @@ export default function LoginPage() {
     try {
       const response = await axios.post("http://localhost:5001/", body);
 
-      console.log(response);
       registerLogin(response.data);
     } catch (err) {
       alert(err.response.data);

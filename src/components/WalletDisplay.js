@@ -1,8 +1,68 @@
 import styled from "styled-components";
+import axios from "axios";
+import { useState, useEffect, useContext } from "react";
+
+import UserContext from "../contexts/UserContext";
+import WalletItem from "./WalletItem";
 
 export default function WalletDisplay() {
+  const { data } = useContext(UserContext);
+  const [walletStatement, setWalletStatement] = useState([]);
+
+  useEffect(() => {
+    getStatement();
+  }, []);
+
+  async function getStatement() {
+    try {
+      const response = await axios.get(
+        "http://localhost:5001/home",
+        data.config
+      );
+      setWalletStatement(response.data);
+    } catch (err) {
+      alert(err.response.data);
+    }
+  }
+
+  function totalValue(arrObj) {
+    let sum = 0;
+    arrObj.map((obj) => {
+      console.log(obj);
+      if (obj.type === "debit") {
+        sum += parseFloat(obj.value);
+      } else {
+        sum -= parseFloat(obj.value);
+      }
+    });
+    const color = sum > 0 ? "#03AC00" : sum === 0 ? "#868686" : "#C70000";
+    sum = String(sum).replace(".", ",").replace("-", "");
+    return <TotalValue color={color}>{sum}</TotalValue>;
+  }
+
   function checkInfos() {
-    return <NoData>Não há registros de entrada ou saída</NoData>;
+    if (walletStatement.length === 0)
+      return <NoData>Não há registros de entrada ou saída</NoData>;
+
+    return (
+      <>
+        <div>
+          {walletStatement.map((obj, index) => (
+            <WalletItem
+              key={index}
+              date={obj.date}
+              description={obj.description}
+              value={obj.value}
+              type={obj.type}
+            />
+          ))}
+        </div>
+        <Total>
+          <h1>SALDO</h1>
+          {totalValue(walletStatement)}
+        </Total>
+      </>
+    );
   }
 
   return <Content>{checkInfos()}</Content>;
@@ -15,7 +75,13 @@ const Content = styled.div`
   background: #ffffff;
   border-radius: 5px;
 
+  padding: 23px 11px 10px 13px;
+
   margin-bottom: 13px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const NoData = styled.h1`
@@ -32,4 +98,21 @@ const NoData = styled.h1`
   font-size: 20px;
   line-height: 23px;
   color: #868686;
+`;
+
+const Total = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 20px;
+    color: "#000000";
+  }
+`;
+
+const TotalValue = styled.h2`
+  color: ${(props) => props.color};
 `;
