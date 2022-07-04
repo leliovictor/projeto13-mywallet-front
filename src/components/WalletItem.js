@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-export default function WalletItem({ date, description, value, type }) {
+export default function WalletItem({ date, description, value, type, index }) {
+  //index será enviada para servidor para selecionar o delete certo;
+  
   function deleteValue() {
     alert("tentando deletar");
   }

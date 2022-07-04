@@ -19,7 +19,7 @@ export default function WalletDisplay() {
         "http://localhost:5001/home",
         data.config
       );
-      setWalletStatement(response.data.reverse());
+      setWalletStatement(response.data);
     } catch (err) {
       alert(err.response.data);
     }
@@ -49,6 +49,7 @@ export default function WalletDisplay() {
           {walletStatement.map((obj, index) => (
             <WalletItem
               key={index}
+              index={index}
               date={obj.date}
               description={obj.description}
               value={obj.value}
