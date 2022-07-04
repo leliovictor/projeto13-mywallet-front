@@ -9,9 +9,11 @@ export default function WalletDisplay() {
   const { data } = useContext(UserContext);
   const [walletStatement, setWalletStatement] = useState([]);
 
+  const [reload, setReload] = useState(false);
+
   useEffect(() => {
     getStatement();
-  }, []);
+  }, [reload]);
 
   async function getStatement() {
     try {
@@ -54,6 +56,8 @@ export default function WalletDisplay() {
               description={obj.description}
               value={obj.value}
               type={obj.type}
+              reload={reload}
+              setReload={setReload}
             />
           ))}
         </Statements>

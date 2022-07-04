@@ -1,10 +1,22 @@
+import axios from "axios";
 import styled from "styled-components";
+import { useContext } from "react";
 
-export default function WalletItem({ date, description, value, type, index }) {
-  //index será enviada para servidor para selecionar o delete certo;
-  
-  function deleteValue() {
-    alert("tentando deletar");
+import UserContext from "../contexts/UserContext";
+
+export default function WalletItem({ date, description, value, type, index, reload, setReload }) {
+  const { data } = useContext(UserContext);
+
+  async function deleteValue() {
+    const text = "Are you sure?";
+    if (window.confirm(text)) {
+      try {
+        await axios.delete(`http://localhost:5001/home/${index}`, data.config);
+        setReload(!reload);
+      } catch (err) {
+        alert(err.response.data);
+      }
+    }
   }
 
   function editValue() {
