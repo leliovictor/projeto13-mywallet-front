@@ -18,7 +18,7 @@ export default function WalletDisplay() {
   async function getStatement() {
     try {
       const response = await axios.get(
-        "http://localhost:5001/home",
+        "https://proj13mywallet.herokuapp.com/home",
         data.config
       );
       setWalletStatement(response.data);

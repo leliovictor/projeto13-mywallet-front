@@ -21,7 +21,7 @@ export default function WalletItem({
     const text = "Are you sure?";
     if (window.confirm(text)) {
       try {
-        await axios.delete(`http://localhost:5001/home/${index}`, data.config);
+        await axios.delete(`https://proj13mywallet.herokuapp.com/home/${index}`, data.config);
         setReload(!reload);
       } catch (err) {
         alert(err.response.data);

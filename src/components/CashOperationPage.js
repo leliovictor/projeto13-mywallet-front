@@ -90,7 +90,7 @@ export default function CashOperationPage() {
     };
 
     try {
-      await axios.post("http://localhost:5001/home", body, data.config);
+      await axios.post("https://proj13mywallet.herokuapp.com/home", body, data.config);
 
       navigate("/home");
     } catch (err) {
@@ -111,7 +111,7 @@ export default function CashOperationPage() {
     };
 
     try {
-      await axios.put("http://localhost:5001/home", body, data.config);
+      await axios.put("https://proj13mywallet.herokuapp.com/home", body, data.config);
 
       navigate("/home");
     } catch (err) {

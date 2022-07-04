@@ -25,7 +25,7 @@ export default function SignUpPage() {
       };
 
       try {
-        const response = await axios.post("http://localhost:5001/signup", body);
+        const response = await axios.post("https://proj13mywallet.herokuapp.com/signup", body);
 
         if (response.status === 201) {
           alert("User account has been created successfully");

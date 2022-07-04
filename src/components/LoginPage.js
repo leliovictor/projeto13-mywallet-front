@@ -24,7 +24,7 @@ export default function LoginPage() {
     };
 
     try {
-      const response = await axios.post("http://localhost:5001/", body);
+      const response = await axios.post("https://proj13mywallet.herokuapp.com/", body);
 
       registerLogin(response.data);
     } catch (err) {
